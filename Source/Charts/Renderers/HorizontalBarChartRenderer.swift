@@ -337,7 +337,14 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
+//                print("isVisible = \(dataSet.isVisible)")
+//                print("isDrawValuesEnabled = \(dataSet.isDrawValuesEnabled)")
+//                print("isDrawIconsEnabled = \(dataSet.isDrawIconsEnabled)")
+                
+                print("shouldDrawValues = \(shouldDrawValues(forDataSet: dataSet))")
+                print("YES = \(!(dataSet.isDrawIconsEnabled && dataSet.isVisible))")
+//                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }
@@ -390,6 +397,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             dataSetIndex: dataSetIndex,
                             viewPortHandler: viewPortHandler)
                         
+                        print("VALUE TEXT = \(valueText)")
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))

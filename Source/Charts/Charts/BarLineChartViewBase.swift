@@ -43,6 +43,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// flag indicating if the grid background should be drawn or not
     @objc open var drawGridBackgroundEnabled = false
     
+    @objc open var drawGridEnabled = false
+    
     /// When enabled, the borders rectangle will be rendered.
     /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     @objc open var drawBordersEnabled = false
@@ -184,43 +186,45 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             autoScale()
         }
 
-        if leftAxis.isEnabled
-        {
-            leftYAxisRenderer.computeAxis(min: leftAxis._axisMinimum, max: leftAxis._axisMaximum, inverted: leftAxis.isInverted)
-        }
-        
-        if rightAxis.isEnabled
-        {
-            rightYAxisRenderer.computeAxis(min: rightAxis._axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
-        }
-        
-        if _xAxis.isEnabled
-        {
-            xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
-        }
-        
-        xAxisRenderer.renderAxisLine(context: context)
-        leftYAxisRenderer.renderAxisLine(context: context)
-        rightYAxisRenderer.renderAxisLine(context: context)
+        if isDrawGridEnabled {
+            if leftAxis.isEnabled
+            {
+                leftYAxisRenderer.computeAxis(min: leftAxis._axisMinimum, max: leftAxis._axisMaximum, inverted: leftAxis.isInverted)
+            }
 
-        // The renderers are responsible for clipping, to account for line-width center etc.
-        xAxisRenderer.renderGridLines(context: context)
-        leftYAxisRenderer.renderGridLines(context: context)
-        rightYAxisRenderer.renderGridLines(context: context)
-        
-        if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
-        {
-            xAxisRenderer.renderLimitLines(context: context)
-        }
-        
-        if leftAxis.isEnabled && leftAxis.isDrawLimitLinesBehindDataEnabled
-        {
-            leftYAxisRenderer.renderLimitLines(context: context)
-        }
-        
-        if rightAxis.isEnabled && rightAxis.isDrawLimitLinesBehindDataEnabled
-        {
-            rightYAxisRenderer.renderLimitLines(context: context)
+            if rightAxis.isEnabled
+            {
+                rightYAxisRenderer.computeAxis(min: rightAxis._axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
+            }
+
+            if _xAxis.isEnabled
+            {
+                xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+            }
+            
+            xAxisRenderer.renderAxisLine(context: context)
+            leftYAxisRenderer.renderAxisLine(context: context)
+            rightYAxisRenderer.renderAxisLine(context: context)
+
+//             The renderers are responsible for clipping, to account for line-width center etc.
+            xAxisRenderer.renderGridLines(context: context)
+            leftYAxisRenderer.renderGridLines(context: context)
+            rightYAxisRenderer.renderGridLines(context: context)
+            
+            if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
+            {
+                xAxisRenderer.renderLimitLines(context: context)
+            }
+
+            if leftAxis.isEnabled && leftAxis.isDrawLimitLinesBehindDataEnabled
+            {
+                leftYAxisRenderer.renderLimitLines(context: context)
+            }
+
+            if rightAxis.isEnabled && rightAxis.isDrawLimitLinesBehindDataEnabled
+            {
+                rightYAxisRenderer.renderLimitLines(context: context)
+            }
         }
         
         context.saveGState()
@@ -240,24 +244,26 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         renderer.drawExtras(context: context)
         
-        if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
-        {
-            xAxisRenderer.renderLimitLines(context: context)
+        if isDrawGridEnabled {
+            if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
+            {
+                xAxisRenderer.renderLimitLines(context: context)
+            }
+
+            if leftAxis.isEnabled && !leftAxis.isDrawLimitLinesBehindDataEnabled
+            {
+                leftYAxisRenderer.renderLimitLines(context: context)
+            }
+
+            if rightAxis.isEnabled && !rightAxis.isDrawLimitLinesBehindDataEnabled
+            {
+                rightYAxisRenderer.renderLimitLines(context: context)
+            }
+            
+            xAxisRenderer.renderAxisLabels(context: context)
+            leftYAxisRenderer.renderAxisLabels(context: context)
+            rightYAxisRenderer.renderAxisLabels(context: context)
         }
-        
-        if leftAxis.isEnabled && !leftAxis.isDrawLimitLinesBehindDataEnabled
-        {
-            leftYAxisRenderer.renderLimitLines(context: context)
-        }
-        
-        if rightAxis.isEnabled && !rightAxis.isDrawLimitLinesBehindDataEnabled
-        {
-            rightYAxisRenderer.renderLimitLines(context: context)
-        }
-        
-        xAxisRenderer.renderAxisLabels(context: context)
-        leftYAxisRenderer.renderAxisLabels(context: context)
-        rightYAxisRenderer.renderAxisLabels(context: context)
 
         if clipValuesToContentEnabled
         {
@@ -273,7 +279,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             renderer.drawValues(context: context)
         }
 
-        _legendRenderer.renderLegend(context: context)
+        if isDrawGridEnabled {
+            _legendRenderer.renderLegend(context: context)
+        }
 
         drawDescription(context: context)
         
@@ -1655,6 +1663,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open var isDrawGridBackgroundEnabled: Bool
     {
         return drawGridBackgroundEnabled
+    }
+    
+    @objc open var isDrawGridEnabled: Bool
+    {
+        return drawGridEnabled
     }
     
     /// **default**: false

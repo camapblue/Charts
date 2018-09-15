@@ -43,29 +43,29 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         
         chartView.maxVisibleCount = 60
         
-        let xAxis = chartView.xAxis
-        xAxis.labelPosition = .bottom
-        xAxis.labelFont = .systemFont(ofSize: 10)
-        xAxis.drawAxisLineEnabled = true
-        xAxis.granularity = 10
-        
-        let leftAxis = chartView.leftAxis
-        leftAxis.labelFont = .systemFont(ofSize: 10)
-        leftAxis.drawAxisLineEnabled = true
-        leftAxis.drawGridLinesEnabled = true
-        leftAxis.axisMinimum = 0
-
-        let rightAxis = chartView.rightAxis
-        rightAxis.enabled = true
-        rightAxis.labelFont = .systemFont(ofSize: 10)
-        rightAxis.drawAxisLineEnabled = true
-        rightAxis.axisMinimum = 0
+//        let xAxis = chartView.xAxis
+//        xAxis.labelPosition = .bottom
+//        xAxis.labelFont = .systemFont(ofSize: 10)
+//        xAxis.drawAxisLineEnabled = false
+//        xAxis.granularity = 10
+//
+//        let leftAxis = chartView.leftAxis
+//        leftAxis.labelFont = .systemFont(ofSize: 10)
+//        leftAxis.drawAxisLineEnabled = true
+//        leftAxis.drawGridLinesEnabled = false
+//        leftAxis.axisMinimum = 0
+//
+//        let rightAxis = chartView.rightAxis
+//        rightAxis.enabled = true
+//        rightAxis.labelFont = .systemFont(ofSize: 10)
+//        rightAxis.drawAxisLineEnabled = false
+//        rightAxis.axisMinimum = 0
 
         let l = chartView.legend
         l.horizontalAlignment = .left
         l.verticalAlignment = .bottom
         l.orientation = .horizontal
-        l.drawInside = false
+        l.drawInside = true
         l.form = .square
         l.formSize = 8
         l.font = UIFont(name: "HelveticaNeue-Light", size: 11)!
@@ -106,6 +106,21 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         let data = BarChartData(dataSet: set1)
         data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
         data.barWidth = barWidth
+        
+        let pFormatter = NumberFormatter()
+        pFormatter.numberStyle = .percent
+        pFormatter.maximumFractionDigits = 1
+        pFormatter.multiplier = 1
+        pFormatter.percentSymbol = " %"
+
+        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+        data.setValueTextColor(.white)
+//        set1.axisDependency = .right
+
+        
+        set1.valueTextColor = UIColor.red
+        set1.valueFont = .systemFont(ofSize: 10)
+        set1.axisDependency = .left
         
         chartView.data = data
     }

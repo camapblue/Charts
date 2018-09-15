@@ -80,11 +80,11 @@ class CombinedChartViewController: DemoBaseViewController {
     
     func setChartData() {
         let data = CombinedChartData()
-        data.lineData = generateLineData()
+//        data.lineData = generateLineData()
         data.barData = generateBarData()
-        data.bubbleData = generateBubbleData()
+//        data.bubbleData = generateBubbleData()
         data.scatterData = generateScatterData()
-        data.candleData = generateCandleData()
+//        data.candleData = generateCandleData()
         
         chartView.xAxis.axisMaximum = data.xMax + 0.25
         
@@ -145,33 +145,34 @@ class CombinedChartViewController: DemoBaseViewController {
     
     func generateBarData() -> BarChartData {
         let entries1 = (0..<ITEM_COUNT).map { _ -> BarChartDataEntry in
-            return BarChartDataEntry(x: 0, y: Double(arc4random_uniform(25) + 25))
+            return BarChartDataEntry(x: 1, y: Double(arc4random_uniform(25) + 25))
         }
-        let entries2 = (0..<ITEM_COUNT).map { _ -> BarChartDataEntry in
-            return BarChartDataEntry(x: 0, yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
-        }
+//        let entries2 = (0..<ITEM_COUNT).map { _ -> BarChartDataEntry in
+//            return BarChartDataEntry(x: 0, yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
+//        }
         
         let set1 = BarChartDataSet(values: entries1, label: "Bar 1")
         set1.setColor(UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1))
-        set1.valueTextColor = UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1)
+//        set1.valueTextColor = UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1)
+        set1.valueTextColor = UIColor.red
         set1.valueFont = .systemFont(ofSize: 10)
         set1.axisDependency = .left
         
-        let set2 = BarChartDataSet(values: entries2, label: "")
-        set2.stackLabels = ["Stack 1", "Stack 2"]
-        set2.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
-                       UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
-        ]
-        set2.valueTextColor = UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1)
-        set2.valueFont = .systemFont(ofSize: 10)
-        set2.axisDependency = .left
-        
+//        let set2 = BarChartDataSet(values: entries2, label: "")
+//        set2.stackLabels = ["Stack 1", "Stack 2"]
+//        set2.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
+//                       UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
+//        ]
+//        set2.valueTextColor = UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1)
+//        set2.valueFont = .systemFont(ofSize: 10)
+//        set2.axisDependency = .left
+//
         let groupSpace = 0.06
         let barSpace = 0.02 // x2 dataset
         let barWidth = 0.45 // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
         
-        let data = BarChartData(dataSets: [set1, set2])
+        let data = BarChartData(dataSets: [set1])
         data.barWidth = barWidth
         
         // make this BarData object grouped
