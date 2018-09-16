@@ -337,8 +337,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                print("shouldDrawValues = \(shouldDrawValues(forDataSet: dataSet))")
-                print("YES = \(!(dataSet.isDrawIconsEnabled && dataSet.isVisible))")
                 if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
@@ -362,7 +360,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 // if only single values are drawn (sum)
                 if !dataSet.isStacked
                 {
-                    print("ENTRY COUNT = \(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)))")
+//                    print("ENTRY COUNT = \(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)))")
                     for j in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
@@ -396,7 +394,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             dataSetIndex: dataSetIndex,
                             viewPortHandler: viewPortHandler)
                         
-                        print("VALUE TEXT = \(valueText)")
+//                        print("VALUE TEXT = \(valueText)")
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
