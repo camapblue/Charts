@@ -97,15 +97,15 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         let yVals = (0..<count).map { (i) -> BarChartDataEntry in
             let mult = range + 1
             let val = Double(arc4random_uniform(mult))
-            return BarChartDataEntry(x: Double(i)*spaceForBar, y: val, icon: #imageLiteral(resourceName: "icon"))
+            return BarChartDataEntry(x: Double(i)*spaceForBar, y: val)
         }
         
-        let set1 = BarChartDataSet(values: yVals, label: "DataSet")
+        let set1 = BarChartDataSet(values: yVals, label: nil)
         set1.drawIconsEnabled = false
         
         let data = BarChartData(dataSet: set1)
         data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        data.barWidth = barWidth
+//        data.barWidth = barWidth
         
         let pFormatter = NumberFormatter()
         pFormatter.numberStyle = .percent
@@ -114,7 +114,7 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         pFormatter.percentSymbol = " %"
 
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        data.setValueTextColor(.white)
+//        data.setValueTextColor(.white)
 //        set1.axisDependency = .right
 
         
@@ -123,6 +123,7 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         set1.axisDependency = .left
         
         chartView.data = data
+        chartView.chartDescription?.text = nil
     }
 
     override func optionTapped(_ option: Option) {

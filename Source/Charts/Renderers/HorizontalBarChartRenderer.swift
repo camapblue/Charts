@@ -337,13 +337,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-//                print("isVisible = \(dataSet.isVisible)")
-//                print("isDrawValuesEnabled = \(dataSet.isDrawValuesEnabled)")
-//                print("isDrawIconsEnabled = \(dataSet.isDrawIconsEnabled)")
-                
                 print("shouldDrawValues = \(shouldDrawValues(forDataSet: dataSet))")
                 print("YES = \(!(dataSet.isDrawIconsEnabled && dataSet.isVisible))")
-//                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
@@ -367,6 +362,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 // if only single values are drawn (sum)
                 if !dataSet.isStacked
                 {
+                    print("ENTRY COUNT = \(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)))")
                     for j in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
@@ -375,20 +371,23 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                         
                         let y = rect.origin.y + rect.size.height / 2.0
                         
-                        if !viewPortHandler.isInBoundsTop(rect.origin.y)
-                        {
-                            break
-                        }
-                        
-                        if !viewPortHandler.isInBoundsX(rect.origin.x)
-                        {
-                            continue
-                        }
-                        
-                        if !viewPortHandler.isInBoundsBottom(rect.origin.y)
-                        {
-                            continue
-                        }
+//                        if !viewPortHandler.isInBoundsTop(rect.origin.y)
+//                        {
+//                            print("ENTRY COUNT = No. 1")
+//                            break
+//                        }
+//
+//                        if !viewPortHandler.isInBoundsX(rect.origin.x)
+//                        {
+//                            print("ENTRY COUNT = No. 2")
+//                            continue
+//                        }
+//
+//                        if !viewPortHandler.isInBoundsBottom(rect.origin.y)
+//                        {
+//                            print("ENTRY COUNT = No. 3")
+//                            continue
+//                        }
                         
                         let val = e.y
                         let valueText = formatter.stringForValue(
